@@ -4,7 +4,9 @@ import storage from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", main);
 
+const tag = '[Main]'
 function main() {
+  console.log(tag, 'main');
   const store = new Store(storage);
 
   const views = {
