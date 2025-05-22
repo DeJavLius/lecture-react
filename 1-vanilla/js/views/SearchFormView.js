@@ -46,7 +46,7 @@ export default class SearchFormView extends View {
     this.emit("@reset");
   }
 
-  show() {
-    // TODO
+  show(keyword) {
+    this.inputElement.value = keyword;
   }
 }

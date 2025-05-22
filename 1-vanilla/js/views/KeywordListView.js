@@ -18,8 +18,6 @@ export default class KeywordListView extends View {
   }
 
   handleClick(event) {
-    console.log(tag, "handleClick", event.target.keyword);
-
     const value = event.target.dataset.keyword;
     this.emit("@click", { value });
   }
