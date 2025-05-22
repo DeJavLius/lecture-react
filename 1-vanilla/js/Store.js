@@ -27,6 +27,10 @@ export default class Store {
   }
 
   getHistoryList() {
-    // TODO
+    return this.storage.historyData.sort(this._sortHistory);
+  }
+
+  _sortHistory(hF, hL) {
+    return hL.date > hF.date;
   }
 }
