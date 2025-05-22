@@ -1,3 +1,5 @@
+import { TabType } from "./views/TabView";
+
 const tag = "[Controller]";
 
 export default class Controller {
@@ -18,7 +20,7 @@ export default class Controller {
     this.searchFormView
       .on("@submit", (event) => this.search(event.detail.value))
       .on("@reset", () => this.reset());
-    this.tabView.on("@tab", (selectedTab) => this.tab(selectedTab))
+    this.tabView.on("@change", (event) => this.changeTab(event.detail.value))
   }
 
   search(keyword) {
@@ -36,8 +38,11 @@ export default class Controller {
     this.render();
   }
 
-  tab(selectedTab) {
-    console.log(selectedTab)
+  changeTab(tab) {
+    console.log(tag, "changeTab", tab);
+
+    this.store.selectedTab = tab;
+    this.render();
   }
 
   render() {

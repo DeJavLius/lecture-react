@@ -1,4 +1,4 @@
-import { on, qs, qsAll } from "../helpers.js";
+import { delegate, on, qs, qsAll } from "../helpers.js";
 import View from "./View.js";
 
 const tag = "[TabView]";
@@ -23,6 +23,10 @@ export default class TabView extends View {
     this.bindEvents();
   }
 
+  bindEvents() {
+    delegate(this.element, "click", "li", (event) => this.handleClick(event))
+  }
+
   show(selectedTab) {
     this.element.innerHTML = this.template.getTabList();
     qsAll("li", this.element).forEach((li) => {
@@ -32,16 +36,9 @@ export default class TabView extends View {
     super.show();
   }
 
-  bindEvents() {
-    on(this.element, "click", () => this.handleTab());
-  }
-
-  handleTab() {
-    qsAll("li", this.element).forEach((li) => {
-      li.className = li.dataset.tab === selectedTab ? "active" : "";
-    });
-
-    this.emit("@tab", { selectedTab });
+  handleClick(event) {
+    const value = event.target.dataset.tab;
+    this.emit("@change", { value });
   }
 }
 
