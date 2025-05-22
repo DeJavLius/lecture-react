@@ -1,4 +1,4 @@
-import { qs, qsAll } from "../helpers.js";
+import { on, qs, qsAll } from "../helpers.js";
 import View from "./View.js";
 
 const tag = "[TabView]";
@@ -20,16 +20,28 @@ export default class TabView extends View {
     super(qs("#tab-view"));
 
     this.template = new Template();
-    // TODO
+    this.bindEvents();
   }
 
   show(selectedTab) {
     this.element.innerHTML = this.template.getTabList();
     qsAll("li", this.element).forEach((li) => {
-      li.className = li.dataset.tab == selectedTab ? "active" : "";
+      li.className = li.dataset.tab === selectedTab ? "active" : "";
     });
 
     super.show();
+  }
+
+  bindEvents() {
+    on(this.element, "click", () => this.handleTab());
+  }
+
+  handleTab() {
+    qsAll("li", this.element).forEach((li) => {
+      li.className = li.dataset.tab === selectedTab ? "active" : "";
+    });
+
+    this.emit("@tab", { selectedTab });
   }
 }
 
@@ -38,9 +50,9 @@ class Template {
     return `
       <ul class="tabs">
         ${Object.values(TabType)
-          .map((tabType) => ({ tabType, tabLabel: TabLabel[tabType] }))
-          .map(this._getTab)
-          .join("")}
+        .map((tabType) => ({ tabType, tabLabel: TabLabel[tabType] }))
+        .map(this._getTab)
+        .join("")}
       </ul>
     `;
   }
